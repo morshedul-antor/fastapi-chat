@@ -18,7 +18,7 @@ class ChatRepo(BaseRepo[Chat, ChatIn, ChatUpdate]):
             or_(Chat.sender_id == user_id, Chat.receiver_id == user_id)).all()
 
         data = [user[0] for user in data]
-        # data = db.query(User).filter(User.id.in_(data)).distinct().all()
+        data = db.query(User).filter(User.id.in_(data)).distinct().all()
 
         return data
 
