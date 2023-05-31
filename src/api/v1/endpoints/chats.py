@@ -1,5 +1,5 @@
 from fastapi import Depends, APIRouter
-from schemas import ChatIn, ChatOut
+from schemas import ChatIn, ChatOut, UserOut
 from services import chats_service
 from db import get_db
 from exceptions import handle_result
@@ -19,4 +19,10 @@ def create_chat(chat_in: ChatIn, db: Session = Depends(get_db)):
 def get_messages(sender_id: int, receiver_id: int, db: Session = Depends(get_db)):
     data = chats_service.get_message(
         db=db, sender_id=sender_id, receiver_id=receiver_id)
+    return handle_result(data)
+
+
+@router.get('/users')
+def get_users(db: Session = Depends(get_db)):
+    data = chats_service.get_users(db=db)
     return handle_result(data)

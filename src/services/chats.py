@@ -17,5 +17,12 @@ class ChatService(BaseService[Chat, ChatIn, ChatUpdate]):
             return ServiceResult(AppException.ServerError("Something went wrong!"))
         return ServiceResult(data, status_code=status.HTTP_200_OK)
 
+    def get_users(self, db: Session):
+        data = chats_repo.get_users(db=db)
+
+        if not data:
+            return ServiceResult(AppException.ServerError("Something went wrong!"))
+        return ServiceResult(data, status_code=status.HTTP_200_OK)
+
 
 chats_service = ChatService(Chat, chats_repo)
